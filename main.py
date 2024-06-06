@@ -236,9 +236,9 @@ data_input_tab = ttk.Frame(tabs)
 calculations_tab = ttk.Frame(tabs)
 result_tab = ttk.Frame(tabs)
 
-tabs.add(data_input_tab, text="Входные данные")
-tabs.add(calculations_tab, text="Промежуточные вычисления")
-tabs.add(result_tab, text="Итоговый график")
+tabs.add(data_input_tab, text="Данные")
+tabs.add(calculations_tab, text="Вычисления")
+tabs.add(result_tab, text="График")
 
 tabs.pack()
 

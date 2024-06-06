@@ -213,9 +213,9 @@ data_input_tab = ttk.Frame(tabs)
 calculations_tab = ttk.Frame(tabs)
 result_tab = ttk.Frame(tabs)
 
-tabs.add(data_input_tab, text="Входные данные")
-tabs.add(calculations_tab, text="Промежуточные вычисления")
-tabs.add(result_tab, text="Итоговый график")
+tabs.add(data_input_tab, text="Данные на вход", sticky="w")
+tabs.add(calculations_tab, text="Вычисления")
+tabs.add(result_tab, text="График")
 
 tabs.pack()
 
@@ -251,7 +251,7 @@ data_source = tk.StringVar(value="default")
 
 default_radiobutton = tk.Radiobutton(
     tab1_frame3,
-    text="Использовать предопределённые данные",
+    text="Данные из задачи",
     variable=data_source,
     value="default",
 )
@@ -259,7 +259,7 @@ default_radiobutton.pack(anchor=tk.CENTER)
 
 custom_radiobutton = tk.Radiobutton(
     tab1_frame3,
-    text="Использовать введённые данные",
+    text="Введённые данные",
     variable=data_source,
     value="custom",
 )
