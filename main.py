@@ -9,51 +9,16 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 # Данные из задачи (вставить свои!)
 default_y = np.array(
     [
-        9.35,
-        9.21,
-        9.18,
-        9.50,
-        9.10,
-        9.08,
-        9.05,
-        9.01,
-        9.00,
-        8.98,
-        8.94,
-        8.90,
-        8.88,
-        8.82,
-        8.78,
-        8.75,
-        8.70,
-        8.65,
+        10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48
     ]
 )
 default_x = np.array(
     [
-        4.0,
-        5.0,
-        5.5,
-        6.0,
-        6.8,
-        7.5,
-        8.5,
-        10.8,
-        12.0,
-        14.5,
-        15.9,
-        25.0,
-        28.5,
-        30.5,
-        36.8,
-        40.0,
-        45.8,
-        50.0,
+        0, 5, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42
     ]
 )
 
 
-# --- ФУНКЦИИ ---
 # Отображение заданной матрицы
 def display_matrix(matrix, title):
     """
@@ -71,19 +36,19 @@ def display_matrix(matrix, title):
 
     # Дополнительный фрейм для удобства вывода матрицы
     calculations_tab_matrix_frame = tk.Frame(master=calculations_tab_frame)
-    calculations_tab_matrix_frame.grid(row=1, column=0, sticky="w")
+    calculations_tab_matrix_frame.grid(row=1, column=0, sticky="w", pady=(10, 2))
 
     for i, row in enumerate(matrix):
         for j, val in enumerate(row):
             # Пояснение - :.3f позволяет выводит число только с тремя знаками после запятой
             label = tk.Label(
                 calculations_tab_matrix_frame,
-                text=f"{val:.3f}",
-                borderwidth=1,
-                relief="solid",
-                width=5,
+                text=f"{val:.2f}",
+                borderwidth=2,
+                relief="sunken",
+                width=7,
             )
-            label.grid(row=i, column=j, padx=1, pady=1)
+            label.grid(row=i, column=j, padx=4, pady=2)
 
 
 # Создание полей ввода данных
@@ -184,12 +149,12 @@ def calculate_and_draw():
     ax.set_title("Линейная регрессия")  # Название графика
 
     ax.scatter(
-        x, y, color="green", label="Данные", zorder=5
+        x, y, color="red", label="Данные", zorder=5
     )  # Построение точек на графике
     ax.plot(
         x,
         linear_regression(x),
-        color="black",
+        color="blue",
         label=f"y = {beta_0:.3f} + {beta_1:.3f}x",
     )  # Построение линии
     ax.legend()  # Добавление панели с дополнительной информацией
@@ -223,14 +188,14 @@ root = tk.Tk()
 root.protocol("WM_DELETE_WINDOW", on_closing)
 root.title("Проект по математике")
 
-# --- ОПИСАНИЕ СТИЛЕЙ ---
+# ОПИСАНИЕ СТИЛЕЙ
 italic_style = ttk.Style()
 italic_style.configure("Italic.TLabel", font=("Arial", 10, "italic"))
 
 arial_12_style = ttk.Style()
 arial_12_style.configure("Arial_12.TLabel", font=("Arial", 12))
 
-# --- СОЗДАНИЕ ВКЛАДОК ---
+#СОЗДАНИЕ ВКЛАДОК
 tabs = ttk.Notebook(root)
 data_input_tab = ttk.Frame(tabs)
 calculations_tab = ttk.Frame(tabs)
@@ -242,7 +207,7 @@ tabs.add(result_tab, text="График")
 
 tabs.pack()
 
-# --- ВКЛАДКА 1: ВХОДНЫЕ ДАННЫЕ  ---
+
 # Фрейм 1: Для ввода размера матрицы вводных данных
 data_input_tab_frame1 = tk.Frame(master=data_input_tab)
 data_input_tab_frame1.pack()
@@ -297,10 +262,10 @@ btn_result.pack(pady=10)
 label_error = ttk.Label(root, text="", foreground="red", style="Arial_12.TLabel")
 label_error.pack(side="bottom")
 
-# --- ВКЛАДКА 2: ВЫЧИСЛЕНИЯ ---
+# ВКЛАДКА 2: ВЫЧИСЛЕНИЯ ---
 # Появляется автоматически при вызове функции calculate_and_draw()
 
-# --- ВКЛАДКА 3: РЕЗУЛЬТАТ ---
+# ВКЛАДКА 3: РЕЗУЛЬТАТ
 # Создание графика matplotlib
 fig, ax = plt.subplots()
 

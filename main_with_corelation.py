@@ -213,7 +213,7 @@ data_input_tab = ttk.Frame(tabs)
 calculations_tab = ttk.Frame(tabs)
 result_tab = ttk.Frame(tabs)
 
-tabs.add(data_input_tab, text="Данные на вход", sticky="w")
+tabs.add(data_input_tab, text="Данные на вход")
 tabs.add(calculations_tab, text="Вычисления")
 tabs.add(result_tab, text="График")
 
