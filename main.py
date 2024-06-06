@@ -6,7 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
-# Предопределённые данные
+# Данные из задачи (вставить свои!)
 default_y = np.array(
     [
         9.35,
