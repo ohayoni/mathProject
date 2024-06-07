@@ -6,10 +6,48 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 # Данные из задачи (вставить свои!)
 default_y = np.array(
-    [0.27, 0.40, 0.36, 0.42, 0.45, 0.51, 0.55, 0.58, 0.61, 0.64, 0.68, 0.72, 0.76, 0.78, 0.82, 0.88, 0.95, 1.20]
+    [
+        0.27,
+        0.40,
+        0.36,
+        0.42,
+        0.45,
+        0.51,
+        0.55,
+        0.58,
+        0.61,
+        0.64,
+        0.68,
+        0.72,
+        0.76,
+        0.78,
+        0.82,
+        0.88,
+        0.95,
+        1.20,
+    ]
 )
 default_x = np.array(
-    [1330, 1340, 1350, 1360, 1370, 1380, 1390, 1400, 1410, 1420, 1430, 1440, 1450, 1460, 1470, 1480, 1490, 1500]
+    [
+        1330,
+        1340,
+        1350,
+        1360,
+        1370,
+        1380,
+        1390,
+        1400,
+        1410,
+        1420,
+        1430,
+        1440,
+        1450,
+        1460,
+        1470,
+        1480,
+        1490,
+        1500,
+    ]
 )
 
 
@@ -26,7 +64,9 @@ def display_matrix(matrix, title, window):
     calculations_tab_frame.pack(fill=tk.X)
 
     # Название матрицы
-    label_title = ttk.Label(calculations_tab_frame, text=title, font=("Arial", 12, "bold"))
+    label_title = ttk.Label(
+        calculations_tab_frame, text=title, font=("Arial", 12, "bold")
+    )
     label_title.grid(row=0, column=0, sticky="w", pady=(10, 2))
 
     # Дополнительный фрейм для удобства вывода матрицы
@@ -37,7 +77,6 @@ def display_matrix(matrix, title, window):
         for j, val in enumerate(row):
             label = tk.Label(
                 calculations_tab_matrix_frame,
-
                 text=f"{val:.3f}",  # Пояснение - :.3f позволяет выводить число только с тремя знаками после запятой
                 borderwidth=1,
                 relief="solid",
@@ -97,7 +136,9 @@ def calculate_and_draw():
             label_error.config(text="Пожалуйста, введите корректные числа")
             return
         except NameError:
-            label_error.config(text="Пожалуйста, сначала создайте поля для ввода данных")
+            label_error.config(
+                text="Пожалуйста, сначала создайте поля для ввода данных"
+            )
             return
 
         x = np.array(x_values)
@@ -182,9 +223,9 @@ def display_label(info, window):
     calculations_tab_label_frame = tk.Frame(master=window)
     calculations_tab_label_frame.pack(fill=tk.X)
 
-    ttk.Label(
-        calculations_tab_label_frame, text=info, font=("Arial", 12, "bold")
-    ).grid(row=0, column=0, columnspan=2, pady=(5, 0))
+    ttk.Label(calculations_tab_label_frame, text=info, font=("Arial", 12, "bold")).grid(
+        row=0, column=0, columnspan=2, pady=(5, 0)
+    )
 
 
 # Завершение цикла matplotlib.
@@ -255,7 +296,9 @@ def open_data_input_window():
     btn_result.pack(pady=10)
 
     # Вывод ошибки
-    label_error = ttk.Label(data_input_window, text="", foreground="red", style="Arial_12.TLabel")
+    label_error = ttk.Label(
+        data_input_window, text="", foreground="red", style="Arial_12.TLabel"
+    )
     label_error.pack(side="bottom")
 
 
@@ -266,7 +309,7 @@ def open_calculations_window():
 
     # Проверяем, запускали ли мы уже окно с вычислениями или нет, если нет,
     # то открываем и связываем с главным окном root
-    if 'calculations_window' not in globals() or not calculations_window.winfo_exists():
+    if "calculations_window" not in globals() or not calculations_window.winfo_exists():
         calculations_window = tk.Toplevel(root)
         calculations_window.title("Вычисления")
 
@@ -279,7 +322,7 @@ def open_result_window():
 
     # Проверяем, запускали ли мы уже окно с графиком или нет,
     # если нет, то открываем и связываем с главным окном root
-    if 'result_window' not in globals() or not result_window.winfo_exists():
+    if "result_window" not in globals() or not result_window.winfo_exists():
         result_window = tk.Toplevel(root)
         result_window.title("График")
 
@@ -309,11 +352,15 @@ root.protocol("WM_DELETE_WINDOW", on_closing)
 root.title("Проект по математике")
 
 # Кнопка, которая открывает окно с вводом данных
-btn_open_data_input = ttk.Button(root, text="Ввести данные", command=open_data_input_window)
+btn_open_data_input = ttk.Button(
+    root, text="Ввести данные", command=open_data_input_window
+)
 btn_open_data_input.pack(pady=10)
 
 # Кнопка, которая открывает окно с вычислениями
-btn_open_calculations = ttk.Button(root, text="Показать вычисления", command=open_calculations_window)
+btn_open_calculations = ttk.Button(
+    root, text="Показать вычисления", command=open_calculations_window
+)
 btn_open_calculations.pack(pady=10)
 
 # Кнопка, которая открывает окно в итоговым графиком

@@ -75,21 +75,25 @@ def calculate_and_draw():
     _y = np.mean(y)
 
     # Вычисление средних квадратов
-    _x2 = np.mean([num ** 2 for num in x])
-    _y2 = np.mean([num ** 2 for num in y])
+    _x2 = np.mean([num**2 for num in x])
+    _y2 = np.mean([num**2 for num in y])
 
     # Вычисление среднего произведения x и y
     xy = np.mean([num_x * num_y for num_x, num_y in zip(x, y)])
 
     kxy = round(xy - _x * _y, 3)
-    qx = round(np.sqrt(_x2 - _x ** 2), 3)
-    qy = round(np.sqrt(_y2 - _y ** 2), 3)
+    qx = round(np.sqrt(_x2 - _x**2), 3)
+    qy = round(np.sqrt(_y2 - _y**2), 3)
 
-    r_xy = round(kxy / (qx*qy), 3)
+    r_xy = round(kxy / (qx * qy), 3)
 
     # Создание левой и правой стороны уравнения для нахождения коэффициентов a и b
-    left_side = np.array([[np.sum(x), len(x)], [np.sum([num ** 2 for num in x]), np.sum(x)]])
-    right_side = np.array([[np.sum(y)], [np.sum([num_x * num_y for num_x, num_y in zip(x, y)])]])
+    left_side = np.array(
+        [[np.sum(x), len(x)], [np.sum([num**2 for num in x]), np.sum(x)]]
+    )
+    right_side = np.array(
+        [[np.sum(y)], [np.sum([num_x * num_y for num_x, num_y in zip(x, y)])]]
+    )
 
     # Нахождение коэффициентов a и b
     result = np.linalg.inv(left_side).dot(right_side)
@@ -130,10 +134,16 @@ def calculate_and_draw():
         color="black",
         label=f"y = {b} + {a}x",
         zorder=2,
-        linewidth=1
-
+        linewidth=1,
     )  # Построение линии
-    ax.legend(loc='lower right', fontsize='large', title_fontsize='medium', facecolor='black', edgecolor='black', framealpha=0.07)  # Добавление панели с дополнительной информацией
+    ax.legend(
+        loc="lower right",
+        fontsize="large",
+        title_fontsize="medium",
+        facecolor="black",
+        edgecolor="black",
+        framealpha=0.07,
+    )  # Добавление панели с дополнительной информацией
     ax.grid(zorder=0)  # Добавление сетки
 
     # Обновление Canvas
