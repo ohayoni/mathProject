@@ -7,8 +7,8 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 # Данные из задачи (вставить свои!)
-default_y = np.array([2.2, 3.5, 3.7, 3.8, 4.5, 5.7])
-default_x = np.array([1.5, 1.4, 1.2, 1.1, 0.9, 0.8])
+default_y = np.array([45, 25, 48, 52, 54, 51, 59, 60, 62, 69, 72, 78, 76, 80, 82, 85, 81, 90, 93])
+default_x = np.array([30, 35, 31, 38, 41, 48, 50, 55, 51, 58, 60, 59, 65, 73, 78, 71, 79, 80, 81])
 
 
 # Отображение заданной матрицы
@@ -24,14 +24,13 @@ def display_matrix(matrix, title):
 
     # Название матрицы
     label_title = ttk.Label(
-        calculations_tab_frame, text=title, font=("Arial", 10, "bold")
+        calculations_tab_frame, text=title, font=("Arial", 18, "bold")
     )
-    label_title.grid(row=0, column=0, pady=5)
+    label_title.grid(row=0, column=0, pady=3)
 
     # Дополнительный фрейм для удобства вывода матрицы
     calculations_tab_matrix_frame = tk.Frame(
-        master=calculations_tab_frame, background="grey"
-    )
+        master=calculations_tab_frame)
     calculations_tab_matrix_frame.grid(row=1, column=0, pady=5, sticky=tk.W)
 
     for i, row in enumerate(matrix):
@@ -42,19 +41,19 @@ def display_matrix(matrix, title):
                 text=f"{val:.2f}",
                 width=8,
             )
-            label.grid(row=i, column=j, padx=1, pady=1)
+            label.grid(row=i, column=j, padx=1, pady=2)
 
 
 # Создание полей ввода данных
 def create_data_entries():
     try:
-        num_entries = int(entry_tab1_input.get())
+        num_entries = int(entry_data_input_tab.get())
         if num_entries <= 0:
-            label_error.config(text="Пожалуйста, введите число больше, чем 0")
+            label_error.config(text="Введите число больше, чем 0")
             return
 
     except ValueError:
-        label_error.config(text="Пожалуйста, введите число")
+        label_error.config(text="Введите число")
         return
     # Очищаем поле с текстом об ошибке
     label_error.config(text="")
@@ -72,12 +71,12 @@ def create_data_entries():
     ttk.Label(data_input_tab_frame2, text="X").grid(row=0, column=1, padx=5, pady=5)
 
     for i in range(num_entries):
-        entry_y = ttk.Entry(data_input_tab_frame2, width=3)
-        entry_y.grid(row=i + 1, column=0, padx=5, pady=3)
+        entry_y = ttk.Entry(data_input_tab_frame2, width=5)
+        entry_y.grid(row=i + 1, column=0, padx=5, pady=5)
         entries_y.append(entry_y)
 
-        entry_x = ttk.Entry(data_input_tab_frame2, width=3)
-        entry_x.grid(row=i + 1, column=1, padx=5, pady=3)
+        entry_x = ttk.Entry(data_input_tab_frame2, width=5)
+        entry_x.grid(row=i + 1, column=1, padx=5, pady=5)
         entries_x.append(entry_x)
 
 
@@ -97,11 +96,11 @@ def calculate_and_draw():
             x_values = [float(entry.get()) for entry in entries_x]
             y_values = [float(entry.get()) for entry in entries_y]
         except ValueError:
-            label_error.config(text="Пожалуйста, введите коректные числа")
+            label_error.config(text="Введите коректные числа")
             return
         except NameError:
             label_error.config(
-                text="Пожалуйста, сначала создайте поля для ввода данных"
+                text="Сначала создайте поля для ввода данных"
             )
             return
 
@@ -130,24 +129,27 @@ def calculate_and_draw():
     for widget in calculations_tab.winfo_children():
         widget.destroy()
 
-    # Вывод коэффициентов
-    display_coefs_label("β0", beta_0)
-    display_coefs_label("β1", beta_1)
-
     # Вывод промежуточных вычислений
-    display_matrix(X, "Исходная матрица X")
-    display_matrix(X_T, "Транспонированная матрица X'")
-    display_matrix(X_T_X, "Произведение матриц (X' * X)")
-    display_matrix(X_T_X_inv, "Обратная матрица (X' * X)")
+    display_matrix(X, "Матрица X")
+    display_matrix(X_T, "Транспонированная X'")
+    display_matrix(X_T_X, "Произведение (X' * X)")
+    display_matrix(X_T_X_inv, "Обратная (X' * X)")
+
+    # Вывод коэффициентов
+    info_beta_0 = f"Коэффициент β0: {beta_0:.3f}"
+    display_label(info_beta_0, calculations_tab)
+
+    info_beta_1 = f"Коэффициент β1: {beta_1:.3f}"
+    display_label(info_beta_1, calculations_tab)
 
     # Построение графика
     ax.clear()  # Очистка предыдущего графика
     ax.set_xlabel("Ось X")  # Название для оси X
     ax.set_ylabel("Ось Y")  # Название для оси Y
-    ax.set_title("Итоговый график")  # Название графика
+    ax.set_title("График регрессии")  # Название графика
 
     # Построение точек на графике
-    ax.scatter(x, y, color="purple", label="Данные", zorder=4)
+    ax.scatter(x, y, color="orange", label="Точки", zorder=4)
 
     # Построение линии
     ax.plot(
@@ -161,12 +163,11 @@ def calculate_and_draw():
 
     # Добавление панели с дополнительной информацией
     ax.legend(
-        loc="upper right",
+        loc="lower right",
         fontsize="large",
-        title_fontsize="medium",
         facecolor="black",
         edgecolor="black",
-        framealpha=0.07
+        framealpha=0.09
     )
 
     ax.grid(zorder=0)  # Добавление сетки
@@ -174,48 +175,59 @@ def calculate_and_draw():
     # Обновление Canvas
     canvas.draw()
 
+    # Отображение авторов работы
+    # ВСТАВИТЬ СВОЕ
+    author_1_info = ("==================================================\n\nФ.И.О, группа, за что был в первую очередь "
+                     "ответственен.")
+    display_label(author_1_info, author_tab_first)
 
-# Отображение коэффициентов
-def display_coefs_label(title, coef):
-    calculations_tab_frame = tk.Frame(master=calculations_tab)
-    calculations_tab_frame.pack(fill=tk.X)
+    author_2_info = ("Ф.И.О, группа, за что был в первую очередь "
+                     "ответственен.\n\n==================================================")
+    display_label(author_2_info, author_tab_first)
 
-    ttk.Label(
-        calculations_tab_frame, text=f"{title}: {coef:.3f}", font=("Arial", 15, "bold")
-    ).pack(pady=5)
+
+# Отображение дополнительной информации
+def display_label(info, tab):
+    calculations_tab_label_frame = tk.Frame(master=tab)
+    calculations_tab_label_frame.pack(fill=tk.X)
+
+    ttk.Label(calculations_tab_label_frame, text=info, font=("Arial", 20, "bold")).grid(
+        row=0, column=0, columnspan=2, pady=(5, 0)
+    )
 
 
 root = tk.Tk()
-root.title("Математика. Линейная регрессия")
+root.title("Проект по математике и Python")
 
 # СОЗДАНИЕ ВКЛАДОК
 tabs = ttk.Notebook(root)
 data_input_tab = ttk.Frame(tabs)
 calculations_tab = ttk.Frame(tabs)
 result_tab = ttk.Frame(tabs)
+author_tab = ttk.Frame(tabs)
 
-tabs.add(data_input_tab, text="Ввести данные")
-tabs.add(calculations_tab, text="Результаты вычислений")
-tabs.add(result_tab, text="Итоговый рафик")
+tabs.add(data_input_tab, text="Данные для решения")
+tabs.add(calculations_tab, text="Математические вычисления")
+tabs.add(result_tab, text="График регрессии")
+tabs.add(author_tab, text="Авторы")
 
-tabs.pack(padx=30)
-
+tabs.pack()
 
 # Фрейм 1: Для ввода размера матрицы вводных данных
 data_input_tab_frame1 = tk.Frame(master=data_input_tab)
 data_input_tab_frame1.pack()
 
-ttk.Label(data_input_tab_frame1, text="Введите кол-во данных: ").grid(
-    column=0, row=0, padx=5, pady=10
+ttk.Label(data_input_tab_frame1, text="Введите колличество переменных по X и Y: ").grid(
+    column=0, row=0, padx=5, pady=5
 )
 
-entry_tab1_input = ttk.Entry(data_input_tab_frame1, width=4)
-entry_tab1_input.grid(column=0, row=1, padx=5)
+entry_data_input_tab = ttk.Entry(data_input_tab_frame1, width=4)
+entry_data_input_tab.grid(column=0, row=1, padx=5)
 
 btn_count = ttk.Button(
-    data_input_tab_frame1, text="Создать поля ввода", command=create_data_entries
+    data_input_tab_frame1, text="Создать поля для ввода значений", command=create_data_entries
 )
-btn_count.grid(column=0, row=2, padx=5, pady=10)
+btn_count.grid(column=0, row=2, padx=5, pady=5)
 
 # Фрейм 2: Для полей ввода данных (Entries)
 # Элементы этого фрейма добавляются автоматически, если нажата кнопка
@@ -223,14 +235,14 @@ data_input_tab_frame2 = tk.Frame(master=data_input_tab)
 data_input_tab_frame2.pack()
 
 # Фрейм 3: Для варианта получения данных (из полей ввода или из предопределенных значений)
-tab1_frame3 = tk.Frame(master=data_input_tab)
-tab1_frame3.pack()
+data_input_tab_frame3 = tk.Frame(master=data_input_tab)
+data_input_tab_frame3.pack()
 
 # Переключатель для выбора источника входных данных(предопределённые/введённые)
 data_source = tk.StringVar(value="default")
 
 default_radiobutton = tk.Radiobutton(
-    tab1_frame3,
+    data_input_tab_frame3,
     text="Использовать данные из задачи",
     variable=data_source,
     value="default",
@@ -238,7 +250,7 @@ default_radiobutton = tk.Radiobutton(
 default_radiobutton.pack(anchor=tk.CENTER)
 
 custom_radiobutton = tk.Radiobutton(
-    tab1_frame3,
+    data_input_tab_frame3,
     text="Использовать введённые данные",
     variable=data_source,
     value="custom",
@@ -246,12 +258,12 @@ custom_radiobutton = tk.Radiobutton(
 custom_radiobutton.pack(anchor=tk.CENTER)
 
 btn_result = ttk.Button(
-    tab1_frame3, text="Вычислить и построить график", command=calculate_and_draw
+    data_input_tab_frame3, text="Вычислить и построить график", command=calculate_and_draw
 )
 btn_result.pack(pady=10)
 
 # Вывод ошибки
-label_error = ttk.Label(root, text="", foreground="red", font=("Arial", 9, "bold"))
+label_error = ttk.Label(root, text="", foreground="red", font=("Arial", 10, "bold"))
 label_error.pack(side="bottom")
 
 # ВКЛАДКА 2: ВЫЧИСЛЕНИЯ ---
@@ -265,5 +277,12 @@ fig, ax = plt.subplots()
 canvas = FigureCanvasTkAgg(fig, master=result_tab)
 canvas.draw()
 canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
+
+# ВКЛАДКА 4: АВТОРЫ
+author_tab_first = tk.Frame(master=author_tab)
+author_tab_first.pack()
+
+author_tab_second = tk.Frame(master=author_tab)
+author_tab_second.pack()
 
 root.mainloop()
